@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import type { ConfigType } from '@nestjs/config';
+import { type ConfigType } from '@nestjs/config';
 
 import { appConfig, webConfig } from './common/config';
+import { GlobalExceptionFilter } from './common/api';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,8 @@ async function bootstrap() {
     origin: webConfigValue.CORS.ORIGIN,
     credentials: webConfigValue.CORS.CREDENTIALS,
   });
+
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Hub Wiki Backend API')
