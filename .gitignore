@@ -53,3 +53,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # drizzle data
 drizzle/meta/
+
+# local markdown files
+PULL_REQUEST_TEMPLATE.md
