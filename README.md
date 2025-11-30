@@ -1,14 +1,41 @@
 # [카피 - 웹 백엔드 - 나무위키] 허브위키 v0.1
 
 ## 실행 하기
-git bash에서
-
+### 1. mysql server 8.4 설치
+- https://dev.mysql.com/downloads/mysql/8.4.html
+### 2. DBeaver 설치
+- https://dbeaver.io/download/
+- DB 연결 후 테이블 생성
+  - hub_wiki_local
+### 3. git clone
 ```bash
 git clone https://github.com/cw7430/hub-wiki-back.git
 cd hub-wiki-back
 npm install
-npm run start
 ```
+### 4. .env.local 작성
+- .env.local.example 참고
+```dotenv
+FRONTEND_URL="http://localhost:3000"
+CORS_ORIGIN="http://localhost:3000,http://localhost:5173"
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=hub_wiki_local
+DB_CHARSET=utf8mb4
+DB_TIMEZONE=Z
+```
+### 5. DB 마이그레이션
+```bash
+npm run drizzle:generate
+npm run drizzle:migrate
+```
+### 6. 실행하기
+```bash
+npm run dev
+```
+
 ## 프로젝트 목적
 - NestJS 기반의 API 서버로, 나무위키 스타일 문서 시스템을 위한 버전 관리형 Wiki API를 제공한다
 - 프론트엔드는 Nuxt 3 기반 SSR로 구성되어 있으며, 본 백엔드 API와 연동하여 문서 조회·생성·버전 관리를 수행한다
@@ -27,11 +54,13 @@ npm run start
 ```bash
 └── src/
     ├── common/
+    │    ├── api/
+    │    ├── config/
+    │    └── database/
     │
     ├── modules/
     │   └── doc/
     │         ├── dtos/
-    │         ├── entities/
     │         ├── doc.module.ts
     │         ├── doc.repository.ts
     │         ├── doc.service.ts
