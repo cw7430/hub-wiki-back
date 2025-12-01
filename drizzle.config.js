@@ -1,5 +1,5 @@
-import { defineConfig } from 'drizzle-kit';
-import dotenv from 'dotenv';
+const { defineConfig } = require('drizzle-kit');
+const dotenv = require('dotenv');
 
 // 1) 공통 .env 로드
 dotenv.config();
@@ -7,7 +7,7 @@ dotenv.config();
 // 2) 환경별 로컬 파일 명시적으로 로드 (.env.local 있음)
 dotenv.config({ path: `.env.${process.env.NODE_ENV || 'local'}` });
 
-export default defineConfig({
+module.exports = defineConfig({
   dialect: 'mysql',
   schema: './src/common/database/schemas/**/*.ts',
   out: './drizzle',

@@ -5,7 +5,7 @@ import {
   type ExceptionFilter,
   type ArgumentsHost,
 } from '@nestjs/common';
-import { type Response } from 'express';
+import { FastifyReply } from 'fastify';
 
 import ApiResponse from './api.response';
 import ResponseCode, { type ResponseCodeKey } from './api.response-code';
@@ -16,14 +16,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
+    const reply = ctx.getResponse<FastifyReply>();
 
     let apiResponse: ApiResponse<null>;
 
     // Validation Error
     if (exception instanceof BadRequestException) {
       apiResponse = this.handler.handleValidationException(exception);
-      response.status(ResponseCode.VALIDATION_ERROR.status).json(apiResponse);
+      reply.status(ResponseCode.VALIDATION_ERROR.status).send(apiResponse);
       return;
     }
 
@@ -31,15 +31,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     if (exception instanceof CustomException) {
       apiResponse = this.handler.handleCustomException(exception);
       const status = ResponseCode[exception.responseCodeKey].status;
-      response.status(status).json(apiResponse);
+      reply.status(status).send(apiResponse);
       return;
     }
 
     // General exception
     apiResponse = this.handler.handleGeneralException(exception);
-    response
-      .status(ResponseCode.INTERNAL_SERVER_ERROR.status)
-      .json(apiResponse);
+    reply.status(ResponseCode.INTERNAL_SERVER_ERROR.status).send(apiResponse);
   }
 }
 
