@@ -8,7 +8,7 @@ import {
 
 export const wikiDoc = mysqlTable('wiki_doc', {
   id: bigint('id', { mode: 'bigint' }).primaryKey().autoincrement(),
-  title: varchar('title', { length: 255 }).notNull(),
+  title: varchar('title', { length: 255 }).notNull().unique(),
 });
 
 export const docVersion = mysqlTable('doc_version', {
@@ -23,5 +23,5 @@ export const docVersion = mysqlTable('doc_version', {
 
   body: text('body').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  version: varchar('version', { length: 50 }).notNull(),
+  version: varchar('version', { length: 50 }).notNull().unique(),
 });
