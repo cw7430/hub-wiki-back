@@ -4,7 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { appConfig, dbConfig, webConfig } from './common/config';
-import DatabaseModule from './common/database/database.module';
 import DocModule from './modules/doc/doc.module';
 
 @Module({
@@ -14,7 +13,6 @@ import DocModule from './modules/doc/doc.module';
       envFilePath: [`.env.${process.env.NODE_ENV || 'local'}`, `.env`],
       load: [appConfig, dbConfig, webConfig],
     }),
-    DatabaseModule,
     DocModule,
   ],
   controllers: [AppController],

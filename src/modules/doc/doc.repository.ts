@@ -27,7 +27,7 @@ export default class DocRepository {
       .from(wikiDoc)
       .where(eq(wikiDoc.title, title))
       .limit(1);
-    return result[0];
+    return result[0] ?? undefined;
   }
 
   async findDocVersions(wikiDocId: bigint) {
@@ -50,7 +50,7 @@ export default class DocRepository {
       .orderBy(desc(docVersion.version))
       .limit(1);
 
-    return result[0];
+    return result[0] ?? undefined;
   }
 
   async findDocVersion(title: string, version: string) {
@@ -60,6 +60,6 @@ export default class DocRepository {
       .innerJoin(docVersion, eq(wikiDoc.wikiDocId, docVersion.wikiDocId))
       .where(and(eq(wikiDoc.title, title), eq(docVersion.version, version)))
       .limit(1);
-    return result[0];
+    return result[0] ?? undefined;
   }
 }

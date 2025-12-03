@@ -3,6 +3,7 @@ export { default as ApiResponse } from './api.response';
 export {
   GlobalExceptionFilter,
   GlobalExceptionHandler,
+  CustomException,
 } from './api.global-exception-handler';
 
 export type { ResponseCodeKey } from './api.response-code';

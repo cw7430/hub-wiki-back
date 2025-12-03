@@ -68,7 +68,7 @@ export class GlobalExceptionHandler {
   }
 }
 
-class CustomException extends HttpException {
+export class CustomException extends HttpException {
   constructor(public readonly responseCodeKey: ResponseCodeKey) {
     const responseCode = ResponseCode[responseCodeKey];
     super(
